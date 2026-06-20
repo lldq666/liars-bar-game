@@ -440,6 +440,40 @@ async function updateGameState() {
                 return;
             }
             
+            // 检查当前玩家是否被淘汰（筹码 <= 0）
+            const myChips = state.player_chips[GameState.playerId] || 0;
+            const isEliminated = myChips <= 0;
+            
+            if (isEliminated && GameState.previousEliminated !== true) {
+                // 第一次检测到被淘汰
+                addLog('你被淘汰了！', 'danger');
+                alert('你被淘汰了！\n\n游戏将继续进行，直到只剩一名玩家。');
+                GameState.previousEliminated = true;
+                
+                // 隐藏所有操作按钮
+                document.getElementById('play-actions').classList.add('hidden');
+                document.getElementById('last-play').classList.add('hidden');
+                const challengeBtn = document.getElementById('challenge-btn');
+                if (challengeBtn) challengeBtn.classList.add('hidden');
+            }
+            
+            // 如果被淘汰，只更新游戏状态但不允许操作
+            if (isEliminated) {
+                // 仍然更新游戏信息（可以看到其他人的游戏进展）
+                document.getElementById('round').textContent = state.round || 1;
+                document.getElementById('pot-count').textContent = state.pot_count || 0;
+                updatePlayersInfo(state);
+                
+                // 显示"你已被淘汰"的提示
+                const currentTurnEl = document.getElementById('current-turn');
+                currentTurnEl.textContent = '你已被淘汰，正在观看比赛...';
+                currentTurnEl.style.cssText = 'font-weight: bold; color: #dc3545;';
+                
+                return;  // 被淘汰的玩家不再执行后续逻辑
+            }
+            
+            GameState.previousEliminated = false;
+            
             // 更新游戏信息
             const newRound = state.round || 1;
             document.getElementById('round').textContent = newRound;
