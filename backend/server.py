@@ -201,19 +201,32 @@ class Game:
         # 执行质疑逻辑
         result = self._execute_challenge(player_id)
         
+        # 检查是否有玩家被淘汰（筹码 <= 0）
+        eliminated_players = []
+        for pid, chips in self.player_chips.items():
+            if chips <= 0 and pid in self.players:  # 只在活跃玩家列表中检查
+                eliminated_players.append(pid)
+        
+        # 淘汰筹码 <= 0 的玩家
+        for pid in eliminated_players:
+            self._eliminate_player(pid)
+            result['eliminated'] = pid  # 通知前端哪个玩家被淘汰
+        
         # 清空池子
         self.pot_cards = []
         self.last_claim = None
         
-        # 切换到下一个有手牌的玩家
-        self._advance_to_next_player()
-        
         # 检查游戏是否结束
-        self._check_game_over()
+        game_over = self._check_game_over()
+        
+        if not game_over:
+            # 游戏继续，切换到下一个有手牌的玩家
+            self._advance_to_next_player()
         
         return {
             'success': True,
             'result': result,
+            'game_over': game_over,
             'game_state': self.get_state()
         }
     
@@ -281,20 +294,58 @@ class Game:
     
     def _check_game_over(self):
         """检查游戏是否结束"""
-        for player_id, chips in self.player_chips.items():
-            if chips <= 0:
-                self.status = 'finished'
-                # 找到胜利者（筹码最多的玩家）
-                self.winner = max(self.player_chips, key=self.player_chips.get)
-                return
+        # 统计还有筹码的玩家（筹码 > 0）
+        active_players = [p for p, c in self.player_chips.items() if c > 0]
+        
+        # 如果只剩1个玩家有筹码，游戏结束
+        if len(active_players) <= 1:
+            self.status = 'finished'
+            # 找到胜利者（最后一个有筹码的玩家）
+            if active_players:
+                self.winner = active_players[0]
+            else:
+                # 理论上不会发生，但以防万一
+                self.winner = None
+            return True  # 返回True表示游戏结束
+        
+        # 游戏继续
+        return False  # 返回False表示游戏继续
+    
+    def _eliminate_player(self, player_id):
+        """淘汰玩家（筹码归零）"""
+        print(f"游戏 {self.game_id}: 玩家 {player_id} 被淘汰")
+        
+        # 将该玩家从players列表中移除
+        if player_id in self.players:
+            self.players.remove(player_id)
+        
+        # 清空该玩家的手牌
+        if player_id in self.player_hands:
+            # 将该玩家的手牌放回牌堆
+            self.pot_cards.extend(self.player_hands[player_id])
+            del self.player_hands[player_id]
+        
+        # 注意：不删除 player_chips，因为前端需要显示该玩家被淘汰
+        # 可以在前端根据 chips <= 0 判断该玩家是否被淘汰
+        
+        # 如果当前玩家是被淘汰的玩家，切换到下一个玩家
+        if self.players and self.players[self.current_player] == player_id:
+            self._advance_to_next_player()
+        
+        print(f"玩家 {player_id} 已被淘汰，剩余玩家: {self.players}")
     
     def get_state(self):
         """获取游戏状态"""
+        # 判断每个玩家是否被淘汰（筹码 <= 0）
+        eliminated_players = [p for p, c in self.player_chips.items() if c <= 0]
+        
         return {
             'game_id': self.game_id,
             'status': self.status,
-            'players': self.players,
-            'current_player': self.players[self.current_player] if self.status == 'playing' else None,
+            'players': self.players,  # 只返回活跃玩家
+            'all_players': list(self.player_chips.keys()),  # 返回所有玩家（包括被淘汰的）
+            'eliminated_players': eliminated_players,  # 被淘汰的玩家列表
+            'current_player': self.players[self.current_player] if self.status == 'playing' and self.players else None,
             'player_chips': self.player_chips,
             'player_hands_count': {p: len(h) for p, h in self.player_hands.items()},
             'pot_count': len(self.pot_cards),
