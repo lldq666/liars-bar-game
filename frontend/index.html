@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>骗子酒馆 - Liar's Bar</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div id="app">
+        <!-- 服务器配置面板 -->
+        <div id="server-config" class="panel">
+            <h2>服务器配置</h2>
+            <div class="config-form">
+                <label>后端服务器地址:</label>
+                <input type="text" id="server-url" placeholder="例如: http://localhost:5000">
+                <button onclick="testConnection()">连接</button>
+            </div>
+            <div id="connection-status"></div>
+            <div class="server-presets">
+                <h3>预设服务器:</h3>
+                <button onclick="setServer('http://localhost:5000')">本地服务器 (5000)</button>
+                <button onclick="setServer('http://localhost:5001')">本地服务器 (5001)</button>
+            </div>
+        </div>
+
+        <!-- 游戏大厅 -->
+        <div id="lobby" class="panel hidden">
+            <h2>游戏大厅</h2>
+            <div class="lobby-actions">
+                <button onclick="showCreateGame()">创建游戏</button>
+                <button onclick="showJoinGame()">加入游戏</button>
+            </div>
+            
+            <!-- 创建游戏表单 -->
+            <div id="create-game-form" class="form hidden">
+                <h3>创建新游戏</h3>
+                <label>游戏ID: <input type="text" id="new-game-id"></label>
+                <label>最大玩家数: 
+                    <select id="max-players">
+                        <option value="2">2人</option>
+                        <option value="3">3人</option>
+                        <option value="4" selected>4人</option>
+                    </select>
+                </label>
+                <button onclick="createGame()">创建</button>
+                <button onclick="hideCreateGame()">取消</button>
+            </div>
+            
+            <!-- 加入游戏表单 -->
+            <div id="join-game-form" class="form hidden">
+                <h3>加入游戏</h3>
+                <label>游戏ID: <input type="text" id="join-game-id"></label>
+                <label>玩家ID: <input type="text" id="player-id"></label>
+                <button onclick="joinGame()">加入</button>
+                <button onclick="hideJoinGame()">取消</button>
+            </div>
+        </div>
+
+        <!-- 游戏房间等待界面 -->
+        <div id="waiting-room" class="panel hidden">
+            <h2>游戏房间: <span id="current-game-id"></span></h2>
+            <div id="players-list"></div>
+            <button id="ready-btn" onclick="toggleReady()">准备</button>
+            <button onclick="leaveGame()">离开游戏</button>
+            <p style="margin-top: 10px; color: #666; font-size: 14px;">提示: 所有玩家准备后，游戏将自动开始</p>
+        </div>
+
+        <!-- 游戏主界面 -->
+        <div id="game-room" class="panel hidden">
+            <h2>骗子酒馆</h2>
+            
+            <!-- 游戏信息栏 -->
+            <div id="game-info">
+                <div>回合: <span id="round">1</span></div>
+                <div>池中牌数: <span id="pot-count">0</span></div>
+                <div id="current-turn"></div>
+            </div>
+
+            <!-- 玩家信息 -->
+            <div id="players-info"></div>
+
+            <!-- 上次出牌信息 -->
+            <div id="last-play" class="hidden">
+                <h3>上次出牌</h3>
+                <p id="last-play-info"></p>
+                <button id="challenge-btn" onclick="challenge()">质疑!</button>
+            </div>
+
+            <!-- 自己的手牌 -->
+            <div id="my-hand">
+                <h3>我的手牌 (<span id="hand-count">0</span>张)</h3>
+                <div id="cards-container"></div>
+            </div>
+
+            <!-- 出牌操作 -->
+            <div id="play-actions" class="hidden">
+                <h3>出牌</h3>
+                <div id="selected-cards"></div>
+                <label>声称的牌型: 
+                    <select id="claim-type">
+                        <option value="K">K</option>
+                        <option value="Q">Q</option>
+                        <option value="J">J</option>
+                        <option value="A">A</option>
+                        <option value="2">2</option>
+                        <option value="3">3</option>
+                        <option value="4">4</option>
+                        <option value="5">5</option>
+                        <option value="6">6</option>
+                        <option value="7">7</option>
+                        <option value="8">8</option>
+                        <option value="9">9</option>
+                        <option value="10">10</option>
+                    </select>
+                </label>
+                <button onclick="playCards()">确认出牌</button>
+                <button onclick="cancelPlay()">取消</button>
+            </div>
+
+            <!-- 游戏日志 -->
+            <div id="game-log">
+                <h3>游戏日志</h3>
+                <div id="log-messages"></div>
+            </div>
+        </div>
+    </div>
+
+    <script src="game.js"></script>
+</body>
+</html>

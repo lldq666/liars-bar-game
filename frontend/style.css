@@ -1,0 +1,389 @@
+/* 骗子酒馆游戏样式 */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    min-height: 100vh;
+    padding: 20px;
+}
+
+#app {
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.panel {
+    background: white;
+    border-radius: 15px;
+    padding: 30px;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+    margin-bottom: 20px;
+}
+
+.hidden {
+    display: none !important;
+}
+
+h2 {
+    color: #667eea;
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+h3 {
+    color: #764ba2;
+    margin-bottom: 15px;
+}
+
+/* 服务器配置 */
+#server-config {
+    max-width: 600px;
+    margin: 50px auto;
+}
+
+.config-form {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    margin-bottom: 20px;
+}
+
+.config-form label {
+    font-weight: bold;
+    color: #333;
+}
+
+.config-form input[type="text"] {
+    padding: 10px;
+    border: 2px solid #ddd;
+    border-radius: 5px;
+    font-size: 14px;
+    margin-left: 10px;
+}
+
+.config-form button {
+    padding: 10px 20px;
+    background: #667eea;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 14px;
+    margin-right: 10px;
+}
+
+.config-form button:hover {
+    background: #5568d3;
+}
+
+.server-presets {
+    margin-top: 20px;
+    padding-top: 20px;
+    border-top: 2px solid #eee;
+}
+
+.server-presets button {
+    padding: 8px 15px;
+    margin: 5px;
+    background: #764ba2;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+/* 游戏大厅 */
+#lobby {
+    max-width: 500px;
+    margin: 50px auto;
+}
+
+.lobby-actions {
+    display: flex;
+    gap: 20px;
+    justify-content: center;
+    margin-bottom: 30px;
+}
+
+.lobby-actions button {
+    padding: 15px 30px;
+    font-size: 18px;
+    background: #667eea;
+    color: white;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+}
+
+.lobby-actions button:hover {
+    background: #5568d3;
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+}
+
+.form {
+    background: #f5f5f5;
+    padding: 20px;
+    border-radius: 10px;
+    margin-top: 20px;
+}
+
+.form label {
+    display: block;
+    margin-bottom: 15px;
+    font-weight: bold;
+}
+
+.form input[type="text"],
+.form select {
+    padding: 8px;
+    border: 2px solid #ddd;
+    border-radius: 5px;
+    margin-left: 10px;
+    font-size: 14px;
+}
+
+.form button {
+    padding: 10px 20px;
+    margin-right: 10px;
+    background: #667eea;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+/* 等待房间 */
+#waiting-room {
+    max-width: 600px;
+    margin: 50px auto;
+}
+
+#players-list {
+    background: #f5f5f5;
+    padding: 20px;
+    border-radius: 10px;
+    margin: 20px 0;
+}
+
+#players-list h3 {
+    margin-bottom: 10px;
+}
+
+#players-list .player-item {
+    padding: 10px;
+    background: white;
+    margin-bottom: 10px;
+    border-radius: 5px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+/* 游戏房间 */
+#game-room {
+    max-width: 1000px;
+}
+
+#game-info {
+    display: flex;
+    gap: 30px;
+    justify-content: center;
+    padding: 15px;
+    background: #f5f5f5;
+    border-radius: 10px;
+    margin-bottom: 20px;
+    font-weight: bold;
+}
+
+#players-info {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 15px;
+    margin-bottom: 20px;
+}
+
+.player-card {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    padding: 15px;
+    border-radius: 10px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+}
+
+.player-card.current-turn {
+    border: 3px solid #ffd700;
+    box-shadow: 0 5px 20px rgba(255, 215, 0, 0.5);
+}
+
+.player-card .player-name {
+    font-size: 18px;
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
+.player-card .chip-count {
+    font-size: 24px;
+    text-align: center;
+    margin: 10px 0;
+}
+
+.player-card .hand-count {
+    font-size: 14px;
+    opacity: 0.9;
+}
+
+/* 手牌区域 */
+#my-hand {
+    background: #f5f5f5;
+    padding: 20px;
+    border-radius: 10px;
+    margin-bottom: 20px;
+}
+
+#cards-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-top: 15px;
+}
+
+.card {
+    width: 80px;
+    height: 120px;
+    background: white;
+    border: 3px solid #667eea;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 24px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: all 0.3s;
+    user-select: none;
+}
+
+.card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 10px 20px rgba(102, 126, 234, 0.4);
+}
+
+.card.selected {
+    background: #667eea;
+    color: white;
+    transform: translateY(-15px);
+}
+
+/* 出牌操作 */
+#play-actions {
+    background: #fff3cd;
+    padding: 20px;
+    border-radius: 10px;
+    margin-bottom: 20px;
+}
+
+#selected-cards {
+    display: flex;
+    gap: 10px;
+    margin: 15px 0;
+    flex-wrap: wrap;
+}
+
+#play-actions button {
+    padding: 10px 20px;
+    margin-right: 10px;
+    background: #28a745;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+#play-actions button:last-child {
+    background: #dc3545;
+}
+
+/* 质疑按钮 */
+#last-play {
+    background: #f8d7da;
+    padding: 20px;
+    border-radius: 10px;
+    margin-bottom: 20px;
+}
+
+#challenge-btn {
+    padding: 15px 40px;
+    font-size: 20px;
+    background: #dc3545;
+    color: white;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    margin-top: 15px;
+    font-weight: bold;
+}
+
+#challenge-btn:hover {
+    background: #c82333;
+    transform: scale(1.05);
+}
+
+/* 游戏日志 */
+#game-log {
+    background: #e2e3e5;
+    padding: 20px;
+    border-radius: 10px;
+    max-height: 300px;
+    overflow-y: auto;
+}
+
+#log-messages {
+    font-family: 'Courier New', monospace;
+    font-size: 14px;
+}
+
+.log-entry {
+    padding: 8px;
+    margin-bottom: 5px;
+    background: white;
+    border-radius: 5px;
+    border-left: 4px solid #667eea;
+}
+
+.log-entry.success {
+    border-left-color: #28a745;
+}
+
+.log-entry.danger {
+    border-left-color: #dc3545;
+}
+
+.log-entry.warning {
+    border-left-color: #ffc107;
+}
+
+/* 响应式设计 */
+@media (max-width: 768px) {
+    #players-info {
+        grid-template-columns: 1fr;
+    }
+    
+    #game-info {
+        flex-direction: column;
+        gap: 10px;
+    }
+    
+    .card {
+        width: 60px;
+        height: 90px;
+        font-size: 18px;
+    }
+}
