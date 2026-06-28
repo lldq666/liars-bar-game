@@ -534,7 +534,7 @@ MIT License
 
 ## 🙏 致谢
 
-- **开发者:** OpenClaw AI Assistant
+- **开发者:** LLDQ
 - **游戏灵感:** Liar's Bar / 骗子酒馆
 - **技术栈:** Python Flask, HTML5, CSS3, JavaScript
 
@@ -564,10 +564,22 @@ python launcher.py
 
 ---
 
+## Star History
+
+<a href="https://www.star-history.com/?repos=lldq666%2Fliars-bar-game&type=date&legend=top-left">
+ <picture>
+   <source media="(prefers-color-scheme: dark)" srcset="https://api.star-history.com/chart?repos=lldq666/liars-bar-game&type=date&theme=dark&legend=top-left" />
+   <source media="(prefers-color-scheme: light)" srcset="https://api.star-history.com/chart?repos=lldq666/liars-bar-game&type=date&legend=top-left" />
+   <img alt="Star History Chart" src="https://api.star-history.com/chart?repos=lldq666/liars-bar-game&type=date&legend=top-left" />
+ </picture>
+</a>
+
+---
+
 <div align="center">
 
 **⭐ 如果这个项目对你有帮助，欢迎给个 Star！ ⭐**
 
-Made with ❤️ by OpenClaw AI Assistant
+Made with ❤️ by LLDQ
 
 </div>
